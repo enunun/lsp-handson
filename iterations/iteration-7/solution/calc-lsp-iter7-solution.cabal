@@ -1,0 +1,104 @@
+cabal-version: 3.0
+name:          calc-lsp-iter7-solution
+version:       0.1.0
+synopsis:      Calc language server (Iteration 7, solution)
+license:       MIT
+build-type:    Simple
+
+common shared
+  default-language: GHC2021
+  ghc-options:      -Wall
+
+library
+  import:          shared
+  hs-source-dirs:  src
+  exposed-modules:
+    Calc.Analysis
+    Calc.Check
+    Calc.Complete
+    Calc.Eval
+    Calc.Parser
+    Calc.Query
+    Calc.Rename
+    Calc.Resolve
+    Calc.Summary
+    Calc.Syntax
+    Lsp.Convert
+    Lsp.Server
+    Lsp.State
+
+  build-depends:
+    , base        >=4.20 && <5
+    , containers
+    , lens
+    , lsp         ==2.8.*
+    , lsp-types
+    , megaparsec
+    , stm
+    , text
+
+executable calc-lsp
+  import:         shared
+  hs-source-dirs: app
+  main-is:        Main.hs
+  build-depends:
+    , base
+    , calc-lsp-iter7-solution
+
+test-suite unit
+  import:             shared
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test/unit
+  main-is:            Spec.hs
+  other-modules:
+    Calc.AnalysisSpec
+    Calc.CheckSpec
+    Calc.CompleteSpec
+    Calc.EvalSpec
+    Calc.ParserSpec
+    Calc.QuerySpec
+    Calc.RenameSpec
+    Calc.ResolveSpec
+    Calc.SummarySpec
+    Lsp.ConvertSpec
+    Lsp.StateSpec
+
+  build-tool-depends: hspec-discover:hspec-discover
+  build-depends:
+    , base
+    , calc-lsp-iter7-solution
+    , containers
+    , hspec
+    , lens
+    , lsp-types
+    , QuickCheck
+    , text
+
+test-suite integration
+  import:             shared
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test/integration
+  main-is:            Spec.hs
+  ghc-options:        -threaded
+  other-modules:
+    CompletionSpec
+    DefinitionSpec
+    DiagnosticsSpec
+    DocumentSymbolSpec
+    HoverSpec
+    LogMessageSpec
+    ReferencesSpec
+    RenameSpec
+    SyncSpec
+    TestServer
+
+  build-tool-depends: hspec-discover:hspec-discover
+  build-depends:
+    , base
+    , calc-lsp-iter7-solution
+    , hspec
+    , lens
+    , lsp        ==2.8.*
+    , lsp-test   ==0.18.*
+    , lsp-types
+    , process

@@ -24,7 +24,7 @@ VS Codeで`sample.calc`を開くと，同梱の拡張機能がCalcサーバを�
 | `tax`にカーソルを重ねる | `tax = 96`と表示される |
 | `tax`で「定義へ移動」 | 4行目の`let tax`へ移動する |
 | `price`で「すべての参照を検索」 | 3行目の定義と，4・5行目の2か所の使用が一覧になる |
-| 5行目の末尾で`p`と入力する | 補完候補に`price`が出る |
+| 5行目の末尾に空白，`+`，空白，`p`と続けて入力する | 補完候補に`price`が出る(詳細は`price = 1200`) |
 | `rate`を`taxRate`にリネームする | 2行目と4行目の`rate`がまとめて書き換わる |
 | アウトラインを開く | `rate` `price` `tax` `total`の4つの定義が並ぶ |
 
@@ -420,7 +420,7 @@ rate → tax にリネーム: エラー「'tax' is already defined」
 
 ### 要求
 
-- アウトラインに，文書の定義を上から順に並べる．各項目には値を添える．
+- アウトラインに，文書の定義を上から順に並べる．各項目には値(計算できなければその理由)を添える．
 - エディタからは変更部分だけを受け取る(差分同期)．
 - 文書の解析結果は，文書が変わったときに1回だけ作り，ホバー・定義・参照・補完・リネーム・アウトラインで使い回す．
 - これまでのIterationの機能は，そのまま動く．
@@ -433,10 +433,10 @@ rate → tax にリネーム: エラー「'tax' is already defined」
 
 | モジュール | 内容 |
 | --- | --- |
-| `Calc.Analysis`(新規) | `data Analysis = Analysis {...}`(問題，文，出現，評価結果)，`analyze :: Text -> Analysis` |
-| `Lsp.Convert` | `toDocumentSymbol :: Statement -> Either EvalError Integer -> DocumentSymbol` |
-| `Lsp.State`(新規) | `type Cache = TVar (Map NormalizedUri Analysis)`，`updateAnalysis`，`lookupAnalysis` |
-| `Lsp.Server` | `textDocument/documentSymbol`のハンドラを追加し，同期の方式を差分に変え，各ハンドラがキャッシュを使うよう書き直す |
+| `Calc.Analysis`(新規) | `data Analysis = Analysis {...}`(行，問題，文，出現，評価結果)，`analyze :: Text -> Analysis` |
+| `Lsp.Convert` | `valueText :: Either EvalError Integer -> Text`(`hoverText`もこれを使う)，`toDocumentSymbol :: Statement -> Either EvalError Integer -> DocumentSymbol` |
+| `Lsp.State`(新規) | `type Cache = TVar (Map NormalizedUri Analysis)`，`newCache :: IO Cache`，`updateAnalysis :: Cache -> NormalizedUri -> Text -> IO Analysis`，`lookupAnalysis :: Cache -> NormalizedUri -> IO (Maybe Analysis)` |
+| `Lsp.Server` | `serverDefinition`と`handlers`がキャッシュを引数に受け取る．`textDocument/documentSymbol`のハンドラを追加し，同期の方式を差分に変え，各ハンドラがキャッシュを使うよう書き直す |
 
 ### リファクタリング
 
@@ -456,7 +456,7 @@ rate → tax にリネーム: エラー「'tax' is already defined」
 
 ### 既存のテストへの影響
 
-なし(振る舞いは変えない)．
+- 統合テストの`TestServer.hs`で，キャッシュを作ってから`serverDefinition`に渡す．テストの期待値は変えない．
 
 ### 受講者が行う道具の操作
 

@@ -11,3 +11,4 @@
 | 4 | [iteration-4.md](iteration-4.md) | `Location`，定義と参照のリクエスト，名前解決の表，テストを安全網にしたリファクタリング，名前の衝突 |
 | 5 | [iteration-5.md](iteration-5.md) | 補完と`CompletionItem`，書きかけの入力の扱い，lensの`&`と`?~`，`nub`と内包表記のパターン |
 | 6 | [iteration-6.md](iteration-6.md) | リネームの2つのリクエスト，`WorkspaceEdit`，エラーレスポンス，QuickCheckによる性質のテスト |
+| 7 | [iteration-7.md](iteration-7.md) | `DocumentSymbol`，全文と差分の同期とVFS，STMと`TVar`による共有状態，`liftIO` |

@@ -33,6 +33,7 @@ Iteration Nの演習は，Iteration N-1の模範解答と同じコードから�
 | 4 | 定義へ移動，すべての参照を検索 | [exercise](iterations/iteration-4/exercise/) | [solution](iterations/iteration-4/solution/) |
 | 5 | 補完 | [exercise](iterations/iteration-5/exercise/) | [solution](iterations/iteration-5/solution/) |
 | 6 | リネーム | [exercise](iterations/iteration-6/exercise/) | [solution](iterations/iteration-6/solution/) |
+| 7 | アウトライン，差分同期と解析結果のキャッシュ | [exercise](iterations/iteration-7/exercise/) | [solution](iterations/iteration-7/solution/) |
 
 各Iterationの要求と学ぶことは[ロードマップ](docs/ROADMAP.md)にある．
 
