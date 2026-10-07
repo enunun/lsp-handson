@@ -5,3 +5,4 @@
 | Iteration | ノート | 主な内容 |
 | --- | --- | --- |
 | 0 | [iteration-0.md](iteration-0.md) | LSPの仕組み，`lsp`ライブラリの骨組み，`Text`と`OverloadedStrings`，lens，cabal，hspec，lsp-test |
+| 1 | [iteration-1.md](iteration-1.md) | 診断(`publishDiagnostics`)と位置，レコード，`Maybe`と`Either`の組み合わせ，`Data.Text`による行の検査 |
