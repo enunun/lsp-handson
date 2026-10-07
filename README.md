@@ -32,6 +32,7 @@ Iteration Nの演習は，Iteration N-1の模範解答と同じコードから�
 | 3 | ホバーで変数の値を表示 | [exercise](iterations/iteration-3/exercise/) | [solution](iterations/iteration-3/solution/) |
 | 4 | 定義へ移動，すべての参照を検索 | [exercise](iterations/iteration-4/exercise/) | [solution](iterations/iteration-4/solution/) |
 | 5 | 補完 | [exercise](iterations/iteration-5/exercise/) | [solution](iterations/iteration-5/solution/) |
+| 6 | リネーム | [exercise](iterations/iteration-6/exercise/) | [solution](iterations/iteration-6/solution/) |
 
 各Iterationの要求と学ぶことは[ロードマップ](docs/ROADMAP.md)にある．
 

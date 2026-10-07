@@ -372,7 +372,7 @@ let total = p|     ← 候補: price(詳細: price = 1200)，pages(詳細: pages
 
 - 変数の上でリネームを始めると，その変数の範囲を返す(変数以外では始められない)．
 - 新しい名前を受け取ると，定義と使用のすべてを書き換える編集を返す．
-- 新しい名前が規則に合わない場合，`let`である場合，既にある名前と重なる場合は，理由を添えたエラーを返す．このとき文書は書き換えない．
+- 新しい名前が規則に合わない場合と`let`である場合は`'名前' is not a valid name`，既にある名前と重なる場合は`'名前' is already defined`のエラーを返す．このとき文書は書き換えない．
 
 ### 使用例
 
@@ -391,8 +391,9 @@ rate → tax にリネーム: エラー「'tax' is already defined」
 
 | モジュール | 内容 |
 | --- | --- |
-| `Calc.Rename`(新規) | `data RenameError = InvalidName Text \| AlreadyDefined Text`，`renameEdits :: Text -> Text -> [Occurrence] -> Either RenameError [(Span, Text)]` |
-| `Lsp.Convert` | `toWorkspaceEdit :: Uri -> [(Span, Text)] -> WorkspaceEdit` |
+| `Calc.Parser` | 名前の規則を確かめる`isValidName :: Text -> Bool`を公開する |
+| `Calc.Rename`(新規) | `data RenameError = InvalidName Text \| AlreadyDefined Text`，`renameEdits :: Text -> Text -> [Occurrence] -> Either RenameError [(Span, Text)]`(元の名前，新しい名前，出現) |
+| `Lsp.Convert` | `toWorkspaceEdit :: Uri -> [(Span, Text)] -> WorkspaceEdit`，`renameErrorMessage :: RenameError -> Text` |
 | `Lsp.Server` | `textDocument/prepareRename`と`textDocument/rename`のハンドラを追加する |
 
 ### 設計文書の更新
@@ -413,7 +414,7 @@ rate → tax にリネーム: エラー「'tax' is already defined」
 
 ### 受講者が行う道具の操作
 
-- テストスイートの`build-depends`に`QuickCheck`と`hspec`のQuickCheck連携を追加する．
+- 単体テストのスイートの`build-depends`に`QuickCheck`を追加する(hspecの`Test.Hspec.QuickCheck`から使う)．
 
 ## Iteration 7: アウトラインと差分同期
 
