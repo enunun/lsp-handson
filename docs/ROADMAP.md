@@ -332,7 +332,7 @@ let total = price + tax        ← 使用 2。ここの price で「定義へ移
 ```text
 let price = 1200
 let pages = 30
-let total = p|     ← 候補: price (= 1200)，pages (= 30)
+let total = p|     ← 候補: price(詳細: price = 1200)，pages(詳細: pages = 30)
 ```
 
 ### モジュール
@@ -341,7 +341,7 @@ let total = p|     ← 候補: price (= 1200)，pages (= 30)
 | --- | --- |
 | `Calc.Complete`(新規) | `data Candidate = Keyword Text \| Variable Text (Either EvalError Integer)`，`candidates :: Int -> Int -> Text -> [Statement] -> [Candidate]`(行，列，その行の文字列，解析済みの文) |
 | `Lsp.Convert` | `toCompletionItem :: Candidate -> CompletionItem` |
-| `Lsp.Server` | `textDocument/completion`のハンドラを追加し，capabilitiesで補完を宣言する |
+| `Lsp.Server` | `textDocument/completion`のハンドラを追加する |
 
 ### 設計文書の更新
 
@@ -355,6 +355,7 @@ let total = p|     ← 候補: price (= 1200)，pages (= 30)
 - LSP: `CompletionItem`と`CompletionItemKind`，補完の起点．
 - 書きかけの入力を扱う考え方：解析できた部分と，カーソル前の文字列を組み合わせる．
 - `Data.Text`の`takeWhileEnd`，`isPrefixOf`．
+- lensの`&`と`?~`で，レコードの一部のフィールドを設定する．
 
 ### 既存のテストへの影響
 
@@ -363,6 +364,7 @@ let total = p|     ← 候補: price (= 1200)，pages (= 30)
 ### 受講者が行う道具の操作
 
 - 新しいモジュールを登録する．
+- 単体テストのスイートの`build-depends`に`lens`を追加する．
 
 ## Iteration 6: リネームする
 
