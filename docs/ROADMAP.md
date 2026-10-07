@@ -286,10 +286,11 @@ let total = price + tax        ← 使用 2。ここの price で「定義へ移
 
 | モジュール | 内容 |
 | --- | --- |
-| `Calc.Resolve`(新規) | `data Occurrence = Occurrence {occName :: Text, occSpan :: Span, occKind :: OccKind}`，`data OccKind = Definition \| Use`，`occurrences :: [Statement] -> [Occurrence]` |
+| `Calc.Resolve`(新規) | `data Occurrence = Occurrence {occName :: Text, occSpan :: Span, occKind :: OccKind}`，`data OccKind = Definition \| Use`，`occurrences :: [Statement] -> [Occurrence]`(各文の式の使用，名前の定義の順) |
 | `Calc.Query` | `nameAt`を`occurrenceAt :: Int -> Int -> [Occurrence] -> Maybe Occurrence`に置き換え，`definitionOf :: Text -> [Occurrence] -> Maybe Occurrence`，`referencesOf :: Bool -> Text -> [Occurrence] -> [Occurrence]`を追加する |
 | `Calc.Check` | 未定義と二重定義の検査を`occurrences`の結果から行うよう書き直す |
-| `Lsp.Server` | `textDocument/definition`と`textDocument/references`のハンドラを追加する |
+| `Lsp.Convert` | `toLocation :: Uri -> Span -> Location` |
+| `Lsp.Server` | `textDocument/definition`と`textDocument/references`のハンドラを追加し，ホバーも`occurrenceAt`を使うよう書き直す |
 
 ### リファクタリング
 

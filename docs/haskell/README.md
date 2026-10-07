@@ -8,3 +8,4 @@
 | 1 | [iteration-1.md](iteration-1.md) | 診断(`publishDiagnostics`)と位置，レコード，`Maybe`と`Either`の組み合わせ，`Data.Text`による行の検査 |
 | 2 | [iteration-2.md](iteration-2.md) | megaparsec，再帰的なデータ型と再帰関数，演算子の優先順位，`mapAccumL`と`Data.Set` |
 | 3 | [iteration-3.md](iteration-3.md) | リクエストとレスポンス，`requestHandler`と`\|?`型，`Data.Map`，`Either`と`Maybe`の`do`，`--match` |
+| 4 | [iteration-4.md](iteration-4.md) | `Location`，定義と参照のリクエスト，名前解決の表，テストを安全網にしたリファクタリング，名前の衝突 |

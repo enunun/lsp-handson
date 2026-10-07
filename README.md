@@ -30,6 +30,7 @@ Iteration Nの演習は，Iteration N-1の模範解答と同じコードから�
 | 1 | `let`の形をしていない行の診断 | [exercise](iterations/iteration-1/exercise/) | [solution](iterations/iteration-1/solution/) |
 | 2 | 式の構文解析，未定義変数と二重定義の診断 | [exercise](iterations/iteration-2/exercise/) | [solution](iterations/iteration-2/solution/) |
 | 3 | ホバーで変数の値を表示 | [exercise](iterations/iteration-3/exercise/) | [solution](iterations/iteration-3/solution/) |
+| 4 | 定義へ移動，すべての参照を検索 | [exercise](iterations/iteration-4/exercise/) | [solution](iterations/iteration-4/solution/) |
 
 各Iterationの要求と学ぶことは[ロードマップ](docs/ROADMAP.md)にある．
 
