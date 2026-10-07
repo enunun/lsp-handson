@@ -7,7 +7,7 @@
 ## 受講者と目標
 
 - 受講者は，何らかの言語で実務経験があり，テストを書いたことがある．エディタの補完や定義ジャンプは使うが，LSPの中身は知らない．
-- Haskellは基礎文法(型，パターンマッチ，`Maybe`と`Either`，`do`記法)が分かる．lens，モナド変換子，型レベルの機能は，コースの中で必要な分だけ解説する．
+- Haskellは基礎文法(型，パターンマッチ，`Maybe`と`Either`，`do`記法)が分かる．megaparsec，lens，QuickCheck，STMは，コースの中で必要な分だけ解説する．
 - 修了後，受講者は次のことができる．
   - LSPのメッセージの流れ(初期化，通知，リクエストとレスポンス)を説明できる．
   - Haskellの`lsp`ライブラリで，診断，ホバー，定義へ移動，参照，補完，リネーム，アウトラインを持つ言語サーバを作れる．
@@ -137,7 +137,7 @@ REPLの例は`cabal repl`で実際に動かした結果を写す．
 
 - `.cabal`ファイル，`app/Main.hs`はそのまま使える形で置く．
 - `src/Calc/Summary.hs`は`countLines`の型だけを持ち，本体は`undefined`にする．
-- `src/Lsp/Server.hs`は，`run`，`serverDefinition`と，`initialized`に応じるだけの`handlers`を置く．`didOpen`と`didChange`のハンドラは受講者が書く．
+- `src/Lsp/Server.hs`は，`run`，`serverDefinition`と，`initialized`に応じるだけの`handlers`を置く．`options`は`defaultOptions`のままにする．同期の方式とサーバの名前の宣言，`didOpen`と`didChange`のハンドラは受講者が書く．
 - `test/unit/Spec.hs`と`test/integration/Spec.hs`は，hspec-discoverの入口だけを置く．`TestServer.hs`は受講者がノートを見て書く．
 - `design/`の4つのファイルは，見出しと「ここに何を描くか」のコメントだけを置く．
 - `TESTLIST.md`は，単体テストと統合テストの見出しだけを置く．
