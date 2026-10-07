@@ -3,40 +3,73 @@ rtk = "0.49.0"
 lefthook = "2.1.14"
 node = "26.10.0"
 pnpm = "12.6.0"
-# ここにプロジェクトが使う言語・ツールを追加する(例: node = "24"，rust = "1.98.1")．
-# 版を固定する場合はここで`mise lock`を実行し，生成されたmise.lockもコミットする．
-
-# 実際に利用する場合には以下を有効にする
-# [settings]
-# lockfile = true
+# GHC，cabal，HLS，fourmolu，hlintは.devcontainer/Dockerfileがghcupとcabalで入れる．
 
 [tasks.install]
-description = "依存パッケージをインストールする"
+description = "文書の検査に使うnodeの依存パッケージを入れる"
 run = "pnpm install --frozen-lockfile"
 
-[tasks.fmt]
-description = "コードと文書を整形する"
-depends = ["install"]
-run = "echo 'TODO: add your formatter'"
+[tasks.build]
+description = "cabal.projectに登録したすべてのパッケージをビルドする"
+run = "cabal build all"
 
-[tasks.lint]
-description = "すべてのリントを実行する"
+[tasks.test]
+description = "cabal.projectに登録したすべてのパッケージのテストを実行する"
+run = "cabal test all"
+
+[tasks.fmt]
+description = "Haskellのソースをfourmoluで整形する"
+run = "git ls-files -z '*.hs' | xargs -0 -r fourmolu --mode inplace"
+
+[tasks."lint:fmt"]
+description = "Haskellのソースが整形済みかを検査する"
+run = "git ls-files -z '*.hs' | xargs -0 -r fourmolu --mode check"
+
+[tasks."lint:hs"]
+description = "Haskellのソースをhlintで検査する"
+run = "git ls-files -z '*.hs' | xargs -0 -r hlint"
+
+[tasks."lint:docs"]
+description = "Markdownの文書をtextlintとmarkdownlintで検査する"
 depends = ["install"]
 run = "pnpm lint"
 
-[tasks.test]
-description = "単体テストを実行する"
+[tasks."lint:mermaid"]
+description = "Markdownの中のMermaidの図を構文解析する"
 depends = ["install"]
-run = "echo 'TODO: add your test command'"
+run = "node scripts/check-mermaid.mjs"
+
+[tasks."lint:design"]
+description = "設計文書(c4-component.md)の依存とソースのimportを照合する"
+run = "node scripts/check-design.mjs"
+
+[tasks.lint]
+description = "整形の検査，hlint，文書のリント，図の検査，設計とコードの照合をまとめて実行する"
+depends = ["lint:fmt", "lint:hs", "lint:docs", "lint:mermaid", "lint:design"]
+
+[tasks.check]
+description = "lintとtestをまとめて実行する(CIと同じ)"
+depends = ["lint", "test"]
+
+[tasks.client]
+description = "Calc拡張機能をビルドし，VS Codeに入れる"
+dir = "clients/vscode"
+run = [
+  "pnpm install --frozen-lockfile --ignore-workspace",
+  "pnpm run package",
+  "code --install-extension calc-client.vsix --force",
+]
+
+[tasks.use-server]
+description = "エディタが起動するCalcサーバを，指定したパッケージのcalc-lspに切り替える"
+usage = 'arg "<package>" help="パッケージ名(例: calc-lsp-iter0-exercise)"'
+run = "scripts/use-server.sh ${usage_package}"
 
 [tasks.hooks]
 description = "Gitのフック(コミット時の検査)を設定する"
 run = "lefthook install"
 
 [tasks.setup]
-description = "開発環境を整える(依存パッケージ，Gitのフックなど)"
+description = "開発環境を整える(nodeの依存パッケージ，cabalのパッケージ一覧，Gitのフック)"
 depends = ["install", "hooks"]
-
-[tasks.check]
-description = "整形の検査，リント，単体テストなどをまとめて実行する(CIと同じ)"
-depends = ["lint", "test"]
+run = "cabal update"

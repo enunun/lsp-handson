@@ -1,0 +1,7 @@
+# fourmoluの設定．HLSも保存時の整形にこの設定を使う．
+indentation: 2
+column-limit: 100
+function-arrows: leading
+comma-style: leading
+import-export-style: diff-friendly
+record-brace-space: true

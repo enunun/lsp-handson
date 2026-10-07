@@ -1,0 +1,6 @@
+-- 各Iterationのパッケージを登録する．
+-- 演習を始めるときは，packagesにiterations/iteration-N/exerciseの行を足す．
+index-state: 2026-10-06T00:00:00Z
+
+packages:
+  iterations/iteration-0/solution

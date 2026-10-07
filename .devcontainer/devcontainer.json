@@ -1,12 +1,23 @@
 {
-	"name": "PROJECT_NAME-dev",
+	"name": "lsp-handson-dev",
 	"dockerComposeFile": "./compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspaces",
 	"shutdownAction": "stopCompose",
 	"customizations": {
 		"vscode": {
-			"extensions": ["anthropic.claude-code", "growthjack.claude-code-usage"]
+			"extensions": [
+				"anthropic.claude-code",
+				"growthjack.claude-code-usage",
+				"haskell.haskell",
+				"justusadam.language-haskell",
+				"bierner.markdown-mermaid",
+				"DavidAnson.vscode-markdownlint"
+			],
+			"settings": {
+				"haskell.manageHLS": "PATH",
+				"haskell.formattingProvider": "fourmolu"
+			}
 		}
 	},
 	"postCreateCommand": "mise run setup",
