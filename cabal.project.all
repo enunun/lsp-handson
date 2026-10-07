@@ -1,0 +1,7 @@
+-- 教材を作るときに，すべての演習と模範解答をまとめてビルドするためのプロジェクト．
+-- cabal build all --enable-tests --project-file=cabal.project.all
+index-state: 2026-10-06T00:00:00Z
+
+packages:
+  iterations/*/exercise
+  iterations/*/solution

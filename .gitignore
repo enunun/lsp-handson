@@ -74,5 +74,14 @@ tmp/
 
 # node
 node_modules/
-# 実際に使用する場合には、pnpm-lock.yamlをコミットすることが推奨される
-pnpm-lock.yaml
+
+# Haskell(cabal)のビルド出力．
+dist-newstyle/
+cabal.project.local*
+
+# エディタが起動するサーバへのリンク(mise run use-server)．
+.bin/
+
+# Calc拡張機能のビルド出力．
+clients/vscode/dist/
+*.vsix

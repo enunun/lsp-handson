@@ -1,0 +1,66 @@
+{
+  "name": "calc-client",
+  "displayName": "Calc Language Client",
+  "description": "Starts the Calc language server built in the LSP hands-on course.",
+  "version": "0.1.0",
+  "publisher": "lsp-handson",
+  "license": "MIT",
+  "private": true,
+  "repository": "https://github.com/enunun/lsp-handson",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "languages": [
+      {
+        "id": "calc",
+        "aliases": [
+          "Calc"
+        ],
+        "extensions": [
+          ".calc"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "calc.restartServer",
+        "title": "Calc: Restart Server"
+      }
+    ],
+    "configuration": {
+      "title": "Calc",
+      "properties": {
+        "calc.server.path": {
+          "type": "string",
+          "default": ".bin/calc-lsp",
+          "description": "Path to the Calc language server, relative to the workspace folder."
+        },
+        "calc.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Shows the JSON-RPC messages between VS Code and the server in the output panel."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.js --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js",
+    "package": "pnpm run build && vsce package --no-dependencies --out calc-client.vsix"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2"
+  }
+}

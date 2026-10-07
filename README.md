@@ -1,54 +1,64 @@
-# claude-docker-template
+# HaskellでLSPサーバを作るハンズオン
 
-Claude Code for VSCode + Docker(mise) + rtkで開発するときの，最小構成のテンプレート．
-言語や作るものは特に決めず，devcontainer・mise・rtk・lefthookの土台だけを提供する．
+小さな式言語Calcのための言語サーバ(LSPサーバ)を，Haskellの`lsp`ライブラリで作るコースである．
+Iteration 0〜7の8回で，1つのサーバを少しずつ育てる．
+最後には，VS Codeで診断，ホバー，定義へ移動，参照，補完，リネーム，アウトラインが動く．
 
-## 構成
-
-``` text
-.devcontainer/
-  devcontainer.json  VSCode Dev Containersの設定．claude-home/rtk-homeを
-                      ホストにバインドマウントし，資格情報や履歴をコンテナの
-                      再作成後も保つ．
-  Dockerfile          mise公式イメージをベースに，rtk/lefthookをmiseで入れる．
-                      プロジェクト固有のパッケージ・ツールチェーンはここに追加する．
-  compose.yml         コンテナを起動したままにする(sleep infinity)だけの設定．
-.claude/
-  settings.json        Bashツール呼び出しをrtk経由に書き換えるフック．
-                        enunun/system-development-skillsを参照するプラグイン設定も含む．
-.rtk/
-  filters.toml          プロジェクト固有のrtkフィルタ(雛形のみ)．
-mise.toml               ツールの版とタスク(install/fmt/lint/test/check/setup)の雛形．
-lefthook.yml             コミット時の検査の雛形．
-CLAUDE.md                プロジェクト向けのClaude Code指示の雛形．
-.gitignore
+```text
+-- sample.calc
+let rate = 8
+let price = 1200
+let tax = price * rate / 100
+let total = price + tax + fee    ← undefined variable 'fee'
 ```
 
-## 使い方
+## 対象
 
-1. このフォルダの中身を，新しいプロジェクトのリポジトリのルートにコピーする．
-2. `PROJECT_NAME`という文字列を，プロジェクト名に置き換える(`devcontainer.json`，`compose.yml`，`CLAUDE.md`)．
-3. `mise.toml`の`[tools]`に，プロジェクトが使う言語・ツールを追加する．
-4. `mise.toml`の各タスク(`install`/`fmt`/`lint`/`test`)と，`lefthook.yml`の`format`コマンドを，実際のコマンドに置き換える．
-5. `Dockerfile`に，プロジェクトのビルドに必要なシステムパッケージがあれば追加する．
-6. VSCodeで「Reopen in Container」を実行する．初回は`mise run setup`が走る．
-7. `.gitignore`から`pnpm-lock.yaml`を削除し，lockファイルがコミットされるようにする．
-8. `mise.toml`の`[settings]`と`lockfile = true`の行のコメントを解除し，lockファイルを使用するようにする．
+- 何らかの言語で実務経験があり，テストを書いたことがある．
+- Haskellの基礎文法(型，パターンマッチ，`Maybe`と`Either`，`do`記法)が分かる．
+- LSPの中身は知らなくてよい．
 
-## rtk(Rust Token Killer)について
+## 進め方
 
-シェルコマンドの出力を絞り込み，トークン消費を抑えるCLIプロキシ．
-`.claude/settings.json`のフックが，Claude CodeのBashツール呼び出しを自動的に`rtk`経由に書き換える．
-コマンドの詳しい対応表は[rtkのリポジトリ](https://github.com/rtk-ai/rtk)を参照．
-`~/.claude/CLAUDE.md`からrtkの使い方を読み込ませておくと，全プロジェクトで効く．
+どのIterationも，テストリスト → 設計文書 → テストファーストの実装 → 設計の見直しの順に進める．
+手を動かす場所は`iterations/iteration-N/exercise`で，`iterations/iteration-N/solution`に模範解答と解説がある．
+Iteration Nの演習は，Iteration N-1の模範解答と同じコードから始まる．
 
-## 共有スキルについて
+| Iteration | 作る機能 | 演習 | 模範解答 |
+| --- | --- | --- | --- |
+| 0 | サーバの起動，エディタのログへの行数の出力 | [exercise](iterations/iteration-0/exercise/) | [solution](iterations/iteration-0/solution/) |
+| 1 | `let`の形をしていない行の診断 | [exercise](iterations/iteration-1/exercise/) | [solution](iterations/iteration-1/solution/) |
+| 2 | 式の構文解析，未定義変数と二重定義の診断 | [exercise](iterations/iteration-2/exercise/) | [solution](iterations/iteration-2/solution/) |
+| 3 | ホバーで変数の値を表示 | [exercise](iterations/iteration-3/exercise/) | [solution](iterations/iteration-3/solution/) |
+| 4 | 定義へ移動，すべての参照を検索 | [exercise](iterations/iteration-4/exercise/) | [solution](iterations/iteration-4/solution/) |
+| 5 | 補完 | [exercise](iterations/iteration-5/exercise/) | [solution](iterations/iteration-5/solution/) |
+| 6 | リネーム | [exercise](iterations/iteration-6/exercise/) | [solution](iterations/iteration-6/solution/) |
+| 7 | アウトライン，差分同期と解析結果のキャッシュ | [exercise](iterations/iteration-7/exercise/) | [solution](iterations/iteration-7/solution/) |
 
-`.claude/settings.json`は，[enunun/system-development-skills](https://github.com/enunun/system-development-skills)をプラグインのマーケットプレイスとして参照する設定を含む．成果物を仕上げる`finalize-artifacts`スキルなど，プロジェクトを問わず使うスキルはそちらに集約されている．
+各Iterationの要求と学ぶことは[ロードマップ](docs/ROADMAP.md)にある．
 
-## claude-home / rtk-home について
+## 環境の準備
 
-`.devcontainer/claude-home/`と`.devcontainer/rtk-home/`は，コンテナ作成時に
-`initializeCommand`が自動生成し，
-コンテナ内の`/root/.claude`や`/root/.config/rtk`などにバインドマウントされる．
-資格情報や履歴を含むため，`.gitignore`で除外している．
+1. DockerとVS Code(Dev Containers拡張機能)を入れる．
+2. このリポジトリをVS Codeで開き，コマンド「Dev Containers: Reopen in Container」を実行する．初回はイメージの作成に時間がかかる．
+3. コンテナの中のターミナルで次を実行し，すべて通ることを確かめる．
+
+   ```sh
+   mise run check
+   ```
+
+4. Calc拡張機能をVS Codeに入れる．
+
+   ```sh
+   mise run client
+   ```
+
+`mise tasks`で，使えるタスクの一覧が見られる．
+
+## 資料
+
+- [ロードマップ](docs/ROADMAP.md): 各Iterationの要求，使用例，学ぶこと
+- [テスト駆動開発とテストリスト](docs/tdd.md)
+- [設計文書の書き方](docs/design.md)
+- [文法と概念のノート](docs/haskell/README.md)
+- [Calc拡張機能](clients/vscode/README.md)

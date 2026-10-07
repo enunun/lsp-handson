@@ -1,0 +1,5 @@
+-- sample.calc
+let rate = 8
+let price = 1200
+let tax = price * rate / 100
+let total = price + tax + fee

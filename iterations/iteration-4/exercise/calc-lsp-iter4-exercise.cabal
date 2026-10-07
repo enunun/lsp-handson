@@ -1,0 +1,85 @@
+cabal-version: 3.0
+name:          calc-lsp-iter4-exercise
+version:       0.1.0
+synopsis:      Calc language server (Iteration 4, exercise)
+license:       MIT
+build-type:    Simple
+
+common shared
+  default-language: GHC2021
+  ghc-options:      -Wall
+
+library
+  import:          shared
+  hs-source-dirs:  src
+  exposed-modules:
+    Calc.Check
+    Calc.Eval
+    Calc.Parser
+    Calc.Query
+    Calc.Summary
+    Calc.Syntax
+    Lsp.Convert
+    Lsp.Server
+
+  build-depends:
+    , base        >=4.20 && <5
+    , containers
+    , lens
+    , lsp         ==2.8.*
+    , lsp-types
+    , megaparsec
+    , text
+
+executable calc-lsp
+  import:         shared
+  hs-source-dirs: app
+  main-is:        Main.hs
+  build-depends:
+    , base
+    , calc-lsp-iter4-exercise
+
+test-suite unit
+  import:             shared
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test/unit
+  main-is:            Spec.hs
+  other-modules:
+    Calc.CheckSpec
+    Calc.EvalSpec
+    Calc.ParserSpec
+    Calc.QuerySpec
+    Calc.SummarySpec
+    Lsp.ConvertSpec
+
+  build-tool-depends: hspec-discover:hspec-discover
+  build-depends:
+    , base
+    , calc-lsp-iter4-exercise
+    , containers
+    , hspec
+    , lsp-types
+    , text
+
+test-suite integration
+  import:             shared
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test/integration
+  main-is:            Spec.hs
+  ghc-options:        -threaded
+  other-modules:
+    DiagnosticsSpec
+    HoverSpec
+    LogMessageSpec
+    TestServer
+
+  build-tool-depends: hspec-discover:hspec-discover
+  build-depends:
+    , base
+    , calc-lsp-iter4-exercise
+    , hspec
+    , lens
+    , lsp        ==2.8.*
+    , lsp-test   ==0.18.*
+    , lsp-types
+    , process

@@ -1,6 +1,10 @@
 {
 	"config": {
-		"default": true
+		"default": true,
+		// 1文(英文は1段落)を1行に書くので，行の長さは制限しない．
+		"MD013": false,
+		// 別の節の下なら，同じ見出し(要求，使用例など)を繰り返してよい．
+		"MD024": { "siblings_only": true }
 	},
 	"globs": [
 		"**/*.md"

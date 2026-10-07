@@ -1,0 +1,23 @@
+cabal-version: 3.0
+-- コースで使うライブラリの一覧．Dev Containerのイメージを作るときに
+-- 依存だけを先にビルドし，受講者の最初のビルドを速くする．
+name:          course-deps
+version:       0
+
+library
+  build-depends:
+    , base
+    , containers
+    , hspec
+    , hspec-discover
+    , lens
+    , lsp           ==2.8.*
+    , lsp-test      ==0.18.*
+    , lsp-types
+    , megaparsec
+    , process
+    , QuickCheck
+    , stm
+    , text
+
+  default-language: GHC2021

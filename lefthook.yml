@@ -14,3 +14,15 @@ pre-commit:
     markdownlint:
       glob: "*.md"
       run: pnpm markdownlint-cli2 {staged_files}
+
+    mermaid:
+      glob: "*.md"
+      run: node scripts/check-mermaid.mjs {staged_files}
+
+    fourmolu:
+      glob: "*.hs"
+      run: fourmolu --mode check {staged_files}
+
+    hlint:
+      glob: "*.hs"
+      run: hlint {staged_files}
