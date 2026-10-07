@@ -1,0 +1,26 @@
+# C4: Context と Container
+
+利用者はVS Codeで`.calc`ファイルを編集する．
+Calc拡張機能がCalcサーバ(`calc-lsp`)を起動し，VS CodeとサーバはLSPで文書の内容，ログ，診断をやり取りする．
+
+```mermaid
+flowchart LR
+  user(["利用者"])
+  subgraph editor["VS Code"]
+    vscode["エディタ"]
+    client["Calc拡張機能"]
+  end
+  server["Calcサーバ(calc-lsp)"]
+  file[(".calcファイル")]
+  user -->|"開く・編集する"| vscode
+  vscode -->|"波線とメッセージ"| user
+  vscode -->|"読む・保存する"| file
+  vscode --> client
+  client -->|"起動する(標準入出力)"| server
+  client -->|"開いた・変わった文書"| server
+  server -->|"ログ(行数)"| client
+  server -->|"診断(構文の誤り，未定義の変数，二重定義)"| client
+```
+
+- サーバはファイルを直接読まない．文書の内容は，エディタから届いた通知で知る．
+- 診断は文書ごとに，そのときの問題をすべて送る．問題がなければ空の一覧を送り，前の波線を消す．

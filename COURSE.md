@@ -154,3 +154,4 @@ REPLの例は`cabal repl`で実際に動かした結果を写す．
 - 実行ファイルとして動かしたサーバは，`lsp`の既定のロガーで`window/logMessage`(例：`can't register dynamically for: "workspace/didChangeConfiguration"`)を送ることがある．統合テストのサーバはロガーに`mempty`を渡すので，この通知は出ない．
 - ロケールが設定されていない環境では，hlintが依存する`ghc-lib-parser`のビルドで`happy`がUTF-8のソースを読めずに失敗する(`hGetContents: invalid argument (cannot decode byte sequence …)`)．Dev Containerでは`LANG=C.UTF-8`を設定する．
 - fourmolu 0.21とhlint 3.10は，異なる版の`ghc-lib-parser`に依存する．1回の`cabal install`にまとめると依存を解決できないので，別々に入れる．
+- GHC 9.10の`Prelude`は`foldl'`を公開している．`import Data.List (foldl')`を書くと，`-Wunused-imports`の警告になる．

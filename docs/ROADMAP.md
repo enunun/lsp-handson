@@ -222,16 +222,17 @@ let broken = (1 + 2              ← 行末に診断: unexpected end of input ..
 ### 要求
 
 - 変数にカーソルを重ねると(定義と使用のどちらでもよい)，`名前 = 値`を表示する．
-- 値は，それまでの定義を上から順に評価して求める．`/`は整数の割り算(切り捨て)である．
-- 0で割った場合や，未定義の変数を含む場合は，`名前: 値を計算できません(理由)`を表示する．
-- 変数以外の場所では何も表示しない．
+- 値は，それまでの定義を上から順に評価して求める．`/`は整数の割り算で，小数部分を切り捨てる(負の数では小さいほうへ丸める)．
+- 同じ名前が2回定義されている場合は，最初の定義の値を使う．
+- 0で割った場合や，未定義の変数を含む場合は，`名前: cannot evaluate (理由)`を表示する．
+- 定義されていない変数と，変数以外の場所では何も表示しない．
 
 ### 使用例
 
 ```text
 let price = 1200
 let tax = price * 8 / 100     ← tax にホバー: tax = 96
-let bad = price / (tax - 96)  ← bad にホバー: bad: 値を計算できません(division by zero)
+let bad = price / (tax - 96)  ← bad にホバー: bad: cannot evaluate (division by zero)
 ```
 
 ### モジュール
@@ -241,7 +242,7 @@ let bad = price / (tax - 96)  ← bad にホバー: bad: 値を計算できま�
 | `Calc.Eval`(新規) | `data EvalError = DivisionByZero \| UndefinedVariable Text`，`evalProgram :: [Statement] -> Map Text (Either EvalError Integer)` |
 | `Calc.Query`(新規) | `nameAt :: Int -> Int -> [Statement] -> Maybe Text`(行と列にある変数名) |
 | `Lsp.Convert` | `fromPosition :: Position -> (Int, Int)`，`hoverText :: Text -> Either EvalError Integer -> Text` |
-| `Lsp.Server` | `textDocument/hover`のリクエストハンドラを追加し，capabilitiesでホバーを宣言する |
+| `Lsp.Server` | `textDocument/hover`のリクエストハンドラを追加する．`lsp`が，登録されたハンドラからcapabilitiesにホバーを加える |
 
 ### 設計文書の更新
 

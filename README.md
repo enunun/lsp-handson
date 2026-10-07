@@ -29,6 +29,7 @@ Iteration Nの演習は，Iteration N-1の模範解答と同じコードから�
 | 0 | サーバの起動，エディタのログへの行数の出力 | [exercise](iterations/iteration-0/exercise/) | [solution](iterations/iteration-0/solution/) |
 | 1 | `let`の形をしていない行の診断 | [exercise](iterations/iteration-1/exercise/) | [solution](iterations/iteration-1/solution/) |
 | 2 | 式の構文解析，未定義変数と二重定義の診断 | [exercise](iterations/iteration-2/exercise/) | [solution](iterations/iteration-2/solution/) |
+| 3 | ホバーで変数の値を表示 | [exercise](iterations/iteration-3/exercise/) | [solution](iterations/iteration-3/solution/) |
 
 各Iterationの要求と学ぶことは[ロードマップ](docs/ROADMAP.md)にある．
 
