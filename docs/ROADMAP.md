@@ -203,9 +203,9 @@ let broken = (1 + 2              ← 行末に診断: unexpected end of input ..
 
 ### 学ぶこと
 
-- megaparsec: `Parser`，`Applicative`のコンビネータ(`<$>` `<*>` `<*` `*>`)，`many`，`try`，演算子の優先順位，位置の取得．
+- megaparsec: `Parser`，`Applicative`のコンビネータ(`<$>` `<*>` `<*` `*>` `<$`)，`<|>`と`many`，`notFollowedBy`，`<?>`によるエラーメッセージの名前，演算子の優先順位，位置の取得．
 - 再帰的なデータ型と再帰関数．
-- `foldl'`で定義済みの名前の集合(`Data.Set`)を持ち回る．
+- `mapAccumL`で定義済みの名前の集合(`Data.Set`)を持ち回りながら，文ごとの問題を集める．
 
 ### 既存のテストへの影響
 
